@@ -1,16 +1,27 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import electronLogo from './assets/electron.svg'
 
 function App() {
+  const [partners, setPartners] = useState([]);
   useEffect(() => {
-    (async (data="test") => await window.api.foo(data))()
+    (async () => {
+      const res = await window.api.getPartners();
+      setPartners(res);
+    })()
   }, [])
 
 
   return (
     <>
       <img alt="logo" className="logo" src={electronLogo} />
-      <h1>Hello, world!</h1>
+      <h1>Партнеры</h1>
+      {partners.map((partner) => {
+        return <li>{partner.organization_type} | {partners.name}
+        {partner.ceo}
+        {partner.phone}
+        Рейтинг: {partner.rating}
+        </li>
+      })}
     </>
   )
 }

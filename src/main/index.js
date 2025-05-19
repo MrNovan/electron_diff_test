@@ -5,9 +5,11 @@ import icon from '../../resources/icon.png?asset'
 
 import connectDB from './db';
 
-async function foo(event, data) {
+async function getPartners() {
   try {
-    console.log(data)
+    const prtnersQuery = 'SELECT * FROM partners'
+    const response = await global.dbclient.query(prtnersQuery)
+    return response.rows
     dialog.showMessageBox({ message: 'message back' })
   } catch (e) {
     dialog.showErrorBox('Ошибка', e)
@@ -48,7 +50,7 @@ app.whenReady().then(async () => {
 
   global.dbclient = await connectDB();
 
-  ipcMain.handle('sendSignal', foo)
+  ipcMain.handle('getPartners', getPartners)
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
