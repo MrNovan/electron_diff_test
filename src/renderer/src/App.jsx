@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import electronLogo from './assets/logo.png'
 import { Link } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
+  const navigate = useNavigate();
   const [partners, setPartners] = useState([]);
   useEffect(() => {
     (async () => {
@@ -19,7 +21,7 @@ function App() {
       <h1>Партнеры</h1>
      <ul className='partner-list'>
       {partners.map((partner) => {
-        return <li className='partner-card' key={partner.id}>
+        return <li className='partner-card' key={partner.id} onClick={() => { navigate('/update', {state: {partner}})}}>
           <div className='partner-data'>
             <p className='card-heading'>{partner.organization_type} | {partner.name}</p>
             <div className='partner-data-info'>

@@ -37,6 +37,18 @@ async function createPartner(event, partner) {
   }
 }
 
+async function updatePartner(event, partner) {
+  const {id, type, name, ceo, email, phone, address, rating} = partner
+  try {
+    await global.dbclient.query(`UPDATE partners
+      SET name = '${name}', organization_type = '${type}', ceo = '${ceo}', email = '${email}', phone = '${phone}', address = '${address}', rating = '${rating}'
+      WHERE partners.id = '${id}';`);
+    dialog.showMessageBox({ message: 'Данные обновлены' })
+  } catch (e) {
+    dialog.showErrorBox('Ошибка', e)
+  }
+}
+
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -73,6 +85,7 @@ app.whenReady().then(async () => {
 
   ipcMain.handle('getPartners', getPartners)
   ipcMain.handle('createPartner', createPartner)
+  ipcMain.handle('updatePartner', updatePartner)
 
 
   app.on('browser-window-created', (_, window) => {
