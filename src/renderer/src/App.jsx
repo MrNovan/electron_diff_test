@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import electronLogo from './assets/logo.png'
+import { Link } from 'react-router';
 
 function App() {
   const [partners, setPartners] = useState([]);
@@ -14,9 +15,8 @@ function App() {
   return (
     <>
      <div className='page-heading'>
-      <img className='page-logo' src={electronLogo} alt="logo" />
+      <img className='page-logo' src={electronLogo} alt="logo" /></div>
       <h1>Партнеры</h1>
-     </div>
      <ul className='partner-list'>
       {partners.map((partner) => {
         return <li className='partner-card' key={partner.id}>
@@ -34,6 +34,8 @@ function App() {
         </li>
       })}
      </ul>
+
+     <Link to={'/create'}><button className='add-partner'>Создать партнера</button></Link>
     </>
   )
 }

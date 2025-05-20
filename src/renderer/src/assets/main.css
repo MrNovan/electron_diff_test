@@ -47,7 +47,7 @@ p {
   flex-direction: row;
   justify-content: center;
   width: 700px;
-  gap: 30px;
+  gap: 10px;
 }
 
 .partner-data {
@@ -68,4 +68,16 @@ p {
 form {
   display: flex;
   flex-direction: column;
+}
+
+.add-partner {
+  background-color: #67BA80;
+  border: none;  
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
 }

@@ -23,6 +23,20 @@ async function getPartners() {
   }
 }
 
+async function createPartner(event, partner) {
+  const {type, name, ceo, email, phone, address, rating} = partner
+  try {
+    await global.dbclient.query(
+  `INSERT INTO partners (organization_type, name, ceo, email, phone, address, rating)
+   VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+  [type, name, ceo, email, phone, address, rating]
+);
+    dialog.showMessageBox({ message: 'Партнер Создан' })
+  } catch (e) {
+    dialog.showErrorBox('Ошибка', e)
+  }
+}
+
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -58,6 +72,8 @@ app.whenReady().then(async () => {
   global.dbclient = await connectDB();
 
   ipcMain.handle('getPartners', getPartners)
+  ipcMain.handle('createPartner', createPartner)
+
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
