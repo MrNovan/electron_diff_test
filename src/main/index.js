@@ -7,8 +7,15 @@ import connectDB from './db';
 
 async function getPartners() {
   try {
-    const prtnersQuery = 'SELECT * FROM partners'
-    const response = await global.dbclient.query(prtnersQuery)
+    const response = await global.dbclient.query(`SELECT T1.*,
+      CASE WHEN sum(T2.production_quantity) > 300000 THEN 15
+      WHEN sum(T2.production_quantity) > 50000 THEN 10
+      WHEN sum(T2.production_quantity) > 10000 THEN 5
+      ELSE 0
+      END as discount
+      from partners as T1
+      LEFT JOIN sales as T2 on T1.id = T2.partner_id
+      GROUP BY T1.id`)
     return response.rows
     dialog.showMessageBox({ message: 'message back' })
   } catch (e) {
